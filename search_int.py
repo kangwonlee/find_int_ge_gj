@@ -17,8 +17,7 @@ def main():
     n_dim = 2
 
     for matAb in gen_ints(n_dim):
-        if gauss_elimination_int_only(matAb):
-            print(matAb)
+        gauss_elimination_int_only(matAb)
 
 
 @functools.lru_cache
@@ -85,8 +84,16 @@ def gauss_elimination_int_only(matAb:np.ndarray, epsilon:float=1e-5) -> bool:
             break 
 
     if result:
-        print("int only")
-        print(matAb)
+        mat = matAb[:, :-1]
+        vec = matAb[:, -1]
+        x = nl.solve(mat, vec)
+        if not all((x % 1) <= epsilon):
+            result = False
+            # print("not integer only")
+            # print(matAb)
+        else:
+            print("int only")
+            print(matAb, x)
 
     return result
 

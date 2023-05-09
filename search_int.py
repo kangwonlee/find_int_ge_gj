@@ -16,12 +16,17 @@ def main():
     '''
 
     n_dim = 3
+    b_mp = False
 
-    pool = mp.Pool(mp.cpu_count())
-    pool.map(try_ge_over_vec, gen_mat(n_dim))
+    if b_mp:
+        pool = mp.Pool(mp.cpu_count())
+        pool.map(try_ge_over_vec, gen_mat(n_dim))
 
-    pool.close()
-    pool.join()
+        pool.close()
+        pool.join()
+    else:
+        for mat in gen_mat(n_dim):
+            try_ge_over_vec(mat)
 
 
 @functools.lru_cache

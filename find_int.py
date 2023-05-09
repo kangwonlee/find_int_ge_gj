@@ -98,10 +98,12 @@ def ge_step(matAb:np.ndarray, p:int, i:int, epsilon=1e-3) -> float:
 
         result += sum(
             abs(
-                matAb[i, p+1:]
-            ) - abs(
-                np.round(
+                abs(
                     matAb[i, p+1:]
+                ) - abs(
+                    np.round(
+                        matAb[i, p+1:]
+                    )
                 )
             )
         )

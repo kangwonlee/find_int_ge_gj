@@ -18,7 +18,7 @@ def main():
     n_dim = 3
 
     pool = mp.Pool(mp.cpu_count())
-    pool.map(gauss_elimination_int_only, gen_ints(n_dim))
+    pool.map(try_ge_over_vec, gen_mat(n_dim))
 
     pool.close()
     pool.join()
@@ -32,17 +32,13 @@ def len_x(n_dim:int=2):
     return n_dim*(n_dim+1)
 
 
-def gen_ints(n_dim:int=2):
+def gen_mat(n_dim:int=2):
     '''
     generate a list of integers
     '''
 
     for v in itertools.product(range(-10, 10), repeat=(n_dim*n_dim)):
-        mat = reshape_mat(v, n_dim)
-        if nl.matrix_rank(mat) == n_dim:
-            for vv in itertools.product(range(-10, 10), repeat=n_dim):
-                vec = reshape_vec(vv, n_dim)
-                yield np.hstack((mat, vec))
+        yield reshape_mat(v, n_dim)
 
 
 def reshape_mat(v:List[int], n_dim:int=2) -> Tuple[np.ndarray]:
@@ -57,6 +53,23 @@ def reshape_vec(v:List[int], n_dim:int=2) -> Tuple[np.ndarray]:
     reshape a list of integers into a vector
     '''
     return np.array(v, dtype=float).reshape(n_dim, -1)
+
+
+def try_ge_over_vec(mat:np.ndarray, epsilon:float=1e-5) -> bool:
+    '''
+    try gauss elimination over a matrix and a vector
+    '''
+    n_dim = mat.shape[0]
+
+    if nl.matrix_rank(mat) == n_dim:
+        for vv in itertools.product(range(-10, 10), repeat=n_dim):
+            vec = reshape_vec(vv, n_dim)
+            matAb = np.hstack((mat, vec))
+            gauss_elimination_int_only(matAb, epsilon)
+            del vec
+            del matAb
+
+    del mat
 
 
 def gauss_elimination_int_only(matAb:np.ndarray, epsilon:float=1e-5) -> bool:
@@ -91,6 +104,8 @@ def gauss_elimination_int_only(matAb:np.ndarray, epsilon:float=1e-5) -> bool:
         mat = matAb[:, :-1]
         vec = matAb[:, -1]
         x = nl.solve(mat, vec)
+        del mat
+        del vec
         if not all((x % 1) <= epsilon):
             result = False
             # print("not integer only")

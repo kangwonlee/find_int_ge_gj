@@ -1,6 +1,7 @@
 import functools
 import itertools
 import multiprocessing as mp
+import random
 
 from typing import List, Tuple
 
@@ -37,12 +38,22 @@ def len_x(n_dim:int=2):
     return n_dim*(n_dim+1)
 
 
+def get_digit(n_dim:int, n_max:int=10) -> Tuple[Tuple[int]]:
+    result = []
+    for i in range(n_dim):
+        one = list(range(-n_max, n_max+1))
+        random.shuffle(one)
+        result.append(tuple(one))
+    return tuple(result)
+
+
 def gen_mat(n_dim:int=2):
     '''
     generate a list of integers
     '''
+    len_x = n_dim * n_dim
 
-    for v in itertools.product(range(-10, 10), repeat=(n_dim*n_dim)):
+    for v in itertools.product(*get_digit(len_x)):
         yield reshape_mat(v, n_dim)
 
 

@@ -5,6 +5,7 @@ during Gauss Eliminations or Gauss Jordan Eliminations
 
 import ast
 import pathlib
+import time
 
 import numpy as np
 import numpy.linalg as nl
@@ -22,9 +23,8 @@ def main():
     cache = pathlib.Path('cache.txt')
 
     def show_best(xk, convergence):
-        print(convergence)
+        print(f"{time.asctime()} {eval_ge(xk, n_dim):.2f} {convergence*100:.2f}%")
         print(reshape(xk, n_dim))
-        print(eval_ge(xk, n_dim))
 
         with cache.open('w') as f:
             f.write(str(xk.tolist()))

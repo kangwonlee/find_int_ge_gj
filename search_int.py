@@ -1,5 +1,6 @@
 import functools
 import itertools
+import multiprocessing as mp
 
 from typing import List, Tuple
 
@@ -14,10 +15,13 @@ def main():
     and back substitution
     '''
 
-    n_dim = 2
+    n_dim = 3
 
-    for matAb in gen_ints(n_dim):
-        gauss_elimination_int_only(matAb)
+    pool = mp.Pool(mp.cpu_count())
+    pool.map(gauss_elimination_int_only, gen_ints(n_dim))
+
+    pool.close()
+    pool.join()
 
 
 @functools.lru_cache

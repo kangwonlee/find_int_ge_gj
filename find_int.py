@@ -96,8 +96,15 @@ def ge_step(matAb:np.ndarray, p:int, i:int, epsilon=1e-3) -> float:
         matAb[i, p] = 0
         matAb[i, p+1:] += ratio * matAb[p, p+1:]
 
-        for aij in matAb[i, p+1:]:
-            result += (abs(aij) - int(abs(aij)))
+        result += sum(
+            abs(
+                matAb[i, p+1:]
+            ) - abs(
+                np.round(
+                    matAb[i, p+1:]
+                )
+            )
+        )
 
     return result
 

@@ -77,8 +77,8 @@ def gauss_elimination_int_only(matAb:np.ndarray, epsilon:float=1e-5) -> bool:
             # check if mat[i, p:] integer only
             if not all((matAb[i, p:] % 1) <= epsilon):
                 result = False
-                print("not integer only")
-                print(matAb)
+                # print("not integer only")
+                # print(matAb)
                 break
 
         if not result:

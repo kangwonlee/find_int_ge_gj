@@ -126,6 +126,10 @@ def gauss_jordan_int_only(matA:np.ndarray, epsilon:float=1e-5) -> bool:
         ):
             print("int only")
             print(matAI)
+        
+        del matInv
+
+    del matAI
 
     return result
 

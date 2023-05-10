@@ -2,6 +2,7 @@ import functools
 import itertools
 import multiprocessing as mp
 import random
+import sys
 
 from typing import List, Tuple
 
@@ -9,14 +10,14 @@ import numpy as np
 import numpy.linalg as nl
 
 
-def main():
+def main(argv):
     '''
     find a matrix of integers
     only integers duing gauss elimination
     and back substitution
     '''
 
-    n_dim = 3
+    n_dim = int(argv[1])
     b_mp = False
 
     if b_mp:
@@ -136,4 +137,4 @@ def gauss_elimination_int_only(matAb_org:np.ndarray, epsilon:float=1e-5) -> bool
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)

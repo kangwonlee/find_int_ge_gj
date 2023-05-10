@@ -94,7 +94,7 @@ def gauss_jordan_int_only(matA:np.ndarray, epsilon:float=1e-5) -> bool:
     result = True
 
     for p in range(matAI.shape[0]):
-        for i in range(0, matAI.shape[0]):
+        for i in range(matAI.shape[0]):
             if i == p:
                 continue
 
@@ -118,15 +118,13 @@ def gauss_jordan_int_only(matA:np.ndarray, epsilon:float=1e-5) -> bool:
     if result:
         matInv = matAI[:, matA.shape[0]:]
 
-        if all(
-            np.isclose(
+        if np.isclose(
                 matA @ matInv,
                 np.eye(matA.shape[0])
-            ).flatten().all()
-        ):
+        ).flatten().all():
             print("int only")
-            print(matAI)
-        
+            print(matA)
+
         del matInv
 
     del matAI

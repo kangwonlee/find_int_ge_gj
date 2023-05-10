@@ -88,11 +88,13 @@ def try_ge_over_vec(mat:np.ndarray, epsilon:float=1e-5) -> bool:
     del mat
 
 
-def gauss_elimination_int_only(matAb:np.ndarray, epsilon:float=1e-5) -> bool:
+def gauss_elimination_int_only(matAb_org:np.ndarray, epsilon:float=1e-5) -> bool:
     '''
     perform gauss elimination on a matrix and a vector
     see if integer only
     '''
+
+    matAb = matAb_org.copy()
 
     result = True
 
@@ -128,7 +130,7 @@ def gauss_elimination_int_only(matAb:np.ndarray, epsilon:float=1e-5) -> bool:
             # print(matAb)
         else:
             print("int only")
-            print(matAb, x)
+            print(matAb_org, x)
 
     return result
 

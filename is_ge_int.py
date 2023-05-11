@@ -20,6 +20,7 @@ def main(argv:List[str]):
     matAB = np.array(ab2x_list(argv[1]), dtype=float)
 
     si.gauss_elimination_int_only(matAB)
+    si.gauss_elimination_int_only(-matAB)
 
 
 def ab2x_list(ab:str) -> List[int]:
